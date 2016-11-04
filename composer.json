@@ -1,0 +1,26 @@
+{
+  "name": "mhndev/messaging",
+  "description": "messaging service",
+  "keywords": ["messaging"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "majid abdolhosseini",
+      "email": "majid.a@mabna.com",
+      "homepage":"http://mhndev.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "mhndev\\messaging\\": "src"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "swiftmailer/swiftmailer": "^5.4"
+  },
+  "require-dev":{
+    "raveren/kint": "^1.0"
+
+  }
+}
