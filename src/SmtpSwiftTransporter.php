@@ -55,6 +55,11 @@ class SmtpSwiftTransporter implements iTransporter
         $swiftMessage->setSubject($message->getSubject());
         $swiftMessage->setBody($message->getBody());
 
+
+        if($message->isHtml()){
+            $swiftMessage->setContentType("text/html");
+        }
+
         $mailer = \Swift_Mailer::newInstance($this->transporter);
         $mailer->send($swiftMessage, $failedRecipients);
 
