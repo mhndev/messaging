@@ -21,3 +21,24 @@ $transporter = new \mhndev\messaging\SmtpSwiftTransporter('smtp.gmail.com', 465,
 $transporter->transport($message);
 
 ```
+
+
+### Send Sms
+
+```php
+$novinPayamak = new \mhndev\messaging\NovinPayamak([
+    'wsdl' => 'http://www.novinpayamak.com/services/SMSBox/wsdl',
+    'Auth'=> [
+        'number'=> '50005725045',
+        'pass'=>'password',
+    ],
+    'encoding' => 'UTF-8'
+]);
+
+$message = new \mhndev\messaging\SmsMessage('09355497674', 'Mr Naderi Sms works too ;). good night.');
+$result = (new \mhndev\messaging\twoGMessageTransporter())->setProvider($novinPayamak)->transport($message);
+
+var_dump($result);
+die();
+
+```
