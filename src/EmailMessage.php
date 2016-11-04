@@ -37,6 +37,21 @@ class EmailMessage extends aMessage implements iMessage
 
 
     /**
+     * @var bool
+     */
+    protected $isReply = false;
+
+    /**
+     * @var
+     */
+    protected $replyTo;
+
+    /**
+     * @var
+     */
+    protected $isHtml;
+
+    /**
      * EmailMessage constructor.
      * @param $endPoint
      * @param $body
@@ -44,8 +59,9 @@ class EmailMessage extends aMessage implements iMessage
      * @param null $from
      * @param $cc
      * @param $bcc
+     * @param null $replyTo
      */
-    public function __construct($endPoint, $body, $subject, $from = null, $cc = null, $bcc = null)
+    public function __construct($endPoint, $body, $subject = 'No Subject' , $from = null, $cc = null, $bcc = null, $replyTo = null)
     {
         parent::__construct($endPoint, $body);
 
@@ -53,7 +69,37 @@ class EmailMessage extends aMessage implements iMessage
         $this->cc = $cc;
         $this->bcc = $bcc;
         $this->from = $from;
+
+        if($replyTo){
+            $this->setReplyTo($replyTo);
+        }
     }
+
+
+    /**
+     * @return bool
+     */
+    public function getReplyTo()
+    {
+        if($this->isReply()){
+            return $this->replyTo;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * @param $replyTo
+     * @return $this
+     */
+    public function setReplyTo($replyTo)
+    {
+        $this->replyTo = $replyTo;
+        $this->isReply = true;
+
+        return $this;
+    }
+
 
     /**
      * @return mixed
@@ -93,6 +139,89 @@ class EmailMessage extends aMessage implements iMessage
     public function getSubject()
     {
         return $this->subject;
+    }
+
+
+    /**
+     * @param mixed $cc
+     * @return $this
+     */
+    public function setCc($cc)
+    {
+        $this->cc = $cc;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $bcc
+     * @return $this
+     */
+    public function setBcc($bcc)
+    {
+        $this->bcc = $bcc;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $subject
+     * @return $this
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $from
+     * @return $this
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $attachments
+     * @return $this
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isReply()
+    {
+        return $this->isReply;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isHtml()
+    {
+        return $this->isHtml;
+    }
+
+    /**
+     * @param mixed $isHtml
+     * @return $this
+     */
+    public function setIsHtml($isHtml)
+    {
+        $this->isHtml = $isHtml;
+
+        return $this;
     }
 
 

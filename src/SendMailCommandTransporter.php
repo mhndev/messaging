@@ -5,18 +5,19 @@ use mhndev\messaging\interfaces\iMessage;
 use mhndev\messaging\interfaces\iTransporter;
 
 /**
- * Class PostfixTransporter
+ * Class SendMailCommandTransporter
  * @package mhndev\messaging
  */
-class PostfixTransporter implements iTransporter
+class SendMailCommandTransporter implements iTransporter
 {
 
     /**
      * @param iMessage $message
      * @return mixed
+     * @throws \Exception
      */
     function transport(iMessage $message)
     {
-        // TODO: Implement transport() method.
+
     }
 }
