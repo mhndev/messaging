@@ -7,7 +7,7 @@ use mhndev\messaging\interfaces\iMessage;
  * Class EmailMessage
  * @package mhndev\messaging
  */
-class EmailMessage extends aMessage implements iMessage
+class EmailMessage extends Message implements iMessage
 {
 
     /**

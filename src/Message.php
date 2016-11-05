@@ -4,10 +4,10 @@ namespace mhndev\messaging;
 use mhndev\messaging\interfaces\iMessage;
 
 /**
- * Class aMessage
+ * Class Message
  * @package mhndev\messaging
  */
-abstract class aMessage implements iMessage
+class Message implements iMessage
 {
 
     /**
@@ -48,4 +48,28 @@ abstract class aMessage implements iMessage
     {
         return $this->body;
     }
+
+    /**
+     * @param $body
+     * @return $this
+     */
+    function setBody($body)
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @param $endPoint
+     * @return $this
+     */
+    function setEndPoint($endPoint)
+    {
+        $this->endPoint = $endPoint;
+
+        return $this;
+    }
+
+
 }

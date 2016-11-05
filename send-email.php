@@ -22,6 +22,9 @@ $message->setIsHtml(true);
 
 
 
-$transporter = new \mhndev\messaging\SmtpSwiftTransporter('smtp.gmail.com', 465, 'ssl' ,'majid8911303@gmail.com','email password');
+//$transporter = new \mhndev\messaging\SmtpSwiftTransporter('smtp.gmail.com', 465, 'ssl' ,'majid8911303@gmail.com','email password');
 
+$config = include 'config/email.php';
+
+$transporter = \mhndev\messaging\SmtpSwiftTransporter::FromConfig($config['providers']['shiveh']);
 $transporter->transport($message);

@@ -34,6 +34,21 @@ class SmtpSwiftTransporter implements iTransporter
     }
 
     /**
+     * @param array $config
+     * @return SmtpSwiftTransporter
+     */
+    public static function FromConfig(array $config)
+    {
+        return new self(
+            $config['address'],
+            $config['port'],
+            $config['security'],
+            $config['username'],
+            $config['password']
+        );
+    }
+
+    /**
      * @param iMessage $message
      * @return mixed
      * @throws \Exception
