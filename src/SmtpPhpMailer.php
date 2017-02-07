@@ -2,14 +2,16 @@
 
 namespace mhndev\messaging;
 
+use mhndev\messaging\exceptions\EmailSendFailed;
 use mhndev\messaging\interfaces\iMessage;
 use mhndev\messaging\interfaces\iTransporter;
+use PHPMailer;
 
 /**
- * Class SmtpSwiftTransporter
+ * Class SmtpPhpMailer
  * @package mhndev\messaging
  */
-class SmtpSwiftTransporter implements iTransporter
+class SmtpPhpMailer implements iTransporter
 {
 
 
@@ -28,16 +30,24 @@ class SmtpSwiftTransporter implements iTransporter
      */
     public function __construct($server = 'localhost', $port = 25, $security = null, $username, $password)
     {
-        $this->transporter = \Swift_SmtpTransport::newInstance($server, $port, $security);
-        $this->transporter->setUsername($username);
-        $this->transporter->setPassword($password);
+        $this->transporter = new PHPMailer;
+
+        $this->transporter->SMTPDebug = 3;
+        $this->transporter->isSMTP();
+        $this->transporter->Host = $server;
+
+        $this->transporter->Port = $port;
+        $this->transporter->SMTPSecure = 'tls';
+        $this->transporter->SMTPAuth = true;
+        $this->transporter->Username = $username;
+        $this->transporter->Password = $password;
     }
 
 
 
     /**
      * @param array $config
-     * @return SmtpSwiftTransporter
+     * @return $this
      */
     public static function FromConfig(array $config)
     {
@@ -62,25 +72,24 @@ class SmtpSwiftTransporter implements iTransporter
             throw new \Exception('Smtp Transport can send messages which are instance of '.EmailMessage::class);
         }
 
-        $swiftMessage = \Swift_Message::newInstance();
-        $swiftMessage->setTo($message->getEndpoint());
-        $swiftMessage->setFrom($message->getFrom());
-
-
-        $swiftMessage->setCc($message->getCc());
-        $swiftMessage->setBcc($message->getBcc());
-        $swiftMessage->setSubject($message->getSubject());
-        $swiftMessage->setBody($message->getBody());
-
+        $this->transporter->setFrom($message->getFrom());
+        $this->transporter->addAddress($message->getEndpoint());
+        $this->transporter->Subject = $message->getSubject();
+        $this->transporter->Body    = $message->getBody();
 
         if($message->isHtml()){
-            $swiftMessage->setContentType("text/html");
+            $this->transporter->isHTML();
         }
 
-        $mailer = \Swift_Mailer::newInstance($this->transporter);
-        $mailer->send($swiftMessage, $failedRecipients);
+        $this->transporter->addCC($message->getCc());
+        $this->transporter->addBCC($message->getBcc());
 
-        return $failedRecipients;
+
+        if(! $this->transporter->send() ) {
+            throw new EmailSendFailed($this->transporter->ErrorInfo);
+        }
+
+
     }
 
 

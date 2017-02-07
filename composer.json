@@ -20,7 +20,8 @@
   },
   "require": {
     "php": ">=5.4.0",
-    "swiftmailer/swiftmailer": "^5.4"
+    "swiftmailer/swiftmailer": "^5.4",
+    "phpmailer/phpmailer": "^5.2"
   },
   "require-dev":{
     "raveren/kint": "^1.0"
