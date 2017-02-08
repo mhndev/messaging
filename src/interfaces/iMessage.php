@@ -16,4 +16,9 @@ interface iMessage
      * @return mixed
      */
     function getBody();
+
+    /**
+     * @return bool
+     */
+    function hasBody();
 }

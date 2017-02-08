@@ -70,7 +70,12 @@ class SmtpSwiftTransporter implements iTransporter
     {
         /** @var EmailMessage $message */
         if(! $message instanceof EmailMessage){
-            throw new \Exception('Smtp Transport can send messages which are instance of '.EmailMessage::class);
+            throw new \Exception(
+                sprintf(
+                    'Smtp Transport can send messages,which are instance of %s',
+                    EmailMessage::class
+                )
+            );
         }
 
         $swiftMessage = \Swift_Message::newInstance();
@@ -78,21 +83,36 @@ class SmtpSwiftTransporter implements iTransporter
         $swiftMessage->setFrom($message->getFrom());
 
 
-        $swiftMessage->setCc($message->getCc());
-        $swiftMessage->setBcc($message->getBcc());
-        $swiftMessage->setSubject($message->getSubject());
-        $swiftMessage->setBody($message->getBody());
+        if($message->hasCc()){
+            $swiftMessage->setCc($message->getCc());
+        }
+
+        if($message->hasBcc()){
+            $swiftMessage->setBcc($message->getBcc());
+        }
+
+
+        if($message->hasSubject()){
+            $swiftMessage->setSubject($message->getSubject());
+        }
+
+        if($message->hasBody()){
+            $swiftMessage->setBody($message->getBody());
+        }
 
 
         if($message->isHtml()){
             $swiftMessage->setContentType("text/html");
         }
 
+        if($message->getCharset() == 'utf-8'){
+            $swiftMessage->setCharset('utf-8');
+        }
+
+
         $mailer = \Swift_Mailer::newInstance($this->transporter);
         $mailer->send($swiftMessage, $failedRecipients);
 
-        var_dump($failedRecipients);
-        die();
 
         if(!empty($failedRecipients)){
             throw new EmailSendFailed(implode(',', $failedRecipients));

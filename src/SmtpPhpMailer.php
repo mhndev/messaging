@@ -43,9 +43,6 @@ class SmtpPhpMailer implements iTransporter
         $this->transporter->isSMTP();
         $this->transporter->Host = $server;
 
-        $this->transporter->CharSet = 'utf-8';
-
-
         $this->transporter->Port = $port;
         if($security){
             $this->transporter->SMTPSecure = $security;
@@ -83,6 +80,10 @@ class SmtpPhpMailer implements iTransporter
         /** @var EmailMessage $message */
         if(! $message instanceof EmailMessage){
             throw new \Exception('Smtp Transport can send messages which are instance of '.EmailMessage::class);
+        }
+
+        if($message->getCharset() == 'utf-8'){
+            $this->transporter->CharSet = 'utf-8';
         }
 
         $this->transporter->setFrom($message->getFrom());

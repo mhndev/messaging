@@ -26,7 +26,7 @@ class Message implements iMessage
      * @param $endPoint
      * @param $body
      */
-    public function __construct($endPoint, $body)
+    public function __construct($endPoint, $body = null)
     {
         $this->endPoint = $endPoint;
         $this->body     = $body;
@@ -58,6 +58,14 @@ class Message implements iMessage
         $this->body = $body;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    function hasBody()
+    {
+        return !empty($this->body);
     }
 
     /**

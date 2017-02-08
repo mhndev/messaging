@@ -15,6 +15,13 @@ class EmailMessage extends Message implements iMessage
      */
     protected $cc;
 
+
+    /**
+     * @var string
+     */
+    protected $charset = 'ISO-8859-1';
+
+
     /**
      * @var
      */
@@ -61,7 +68,15 @@ class EmailMessage extends Message implements iMessage
      * @param $bcc
      * @param null $replyTo
      */
-    public function __construct($endPoint, $body, $subject = 'No Subject' , $from = null, $cc = null, $bcc = null, $replyTo = null)
+    public function __construct(
+        $endPoint,
+        $body,
+        $subject = '(No Subject)' ,
+        $from = null,
+        $cc = null,
+        $bcc = null,
+        $replyTo = null
+    )
     {
         parent::__construct($endPoint, $body);
 
@@ -276,6 +291,25 @@ class EmailMessage extends Message implements iMessage
     public function setIsHtml($isHtml)
     {
         $this->isHtml = $isHtml;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCharset()
+    {
+        return $this->charset;
+    }
+
+    /**
+     * @param string $charset
+     * @return $this
+     */
+    public function setCharset($charset)
+    {
+        $this->charset = $charset;
 
         return $this;
     }
