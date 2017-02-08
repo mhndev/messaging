@@ -2,6 +2,7 @@
 
 namespace mhndev\messaging;
 
+use mhndev\messaging\exceptions\EmailSendFailed;
 use mhndev\messaging\interfaces\iMessage;
 use mhndev\messaging\interfaces\iTransporter;
 
@@ -26,9 +27,19 @@ class SmtpSwiftTransporter implements iTransporter
      * @param $username
      * @param $password
      */
-    public function __construct($server = 'localhost', $port = 25, $security = null, $username, $password)
+    public function __construct(
+        $server = 'localhost',
+        $port = 25,
+        $security = null,
+        $username,
+        $password
+    )
     {
         $this->transporter = \Swift_SmtpTransport::newInstance($server, $port, $security);
+
+
+        $this->transporter->setLocalDomain('[127.0.0.1]');
+
         $this->transporter->setUsername($username);
         $this->transporter->setPassword($password);
     }
@@ -80,8 +91,16 @@ class SmtpSwiftTransporter implements iTransporter
         $mailer = \Swift_Mailer::newInstance($this->transporter);
         $mailer->send($swiftMessage, $failedRecipients);
 
+        var_dump($failedRecipients);
+        die();
+
+        if(!empty($failedRecipients)){
+            throw new EmailSendFailed(implode(',', $failedRecipients));
+        }
+
         return $failedRecipients;
     }
+
 
 
 }

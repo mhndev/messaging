@@ -89,6 +89,16 @@ class EmailMessage extends Message implements iMessage
     }
 
     /**
+     * @return bool
+     */
+    public function hasReplyTo()
+    {
+        return !empty($this->replyTo);
+    }
+
+
+
+    /**
      * @param $replyTo
      * @return $this
      */
@@ -109,6 +119,15 @@ class EmailMessage extends Message implements iMessage
         return $this->bcc;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function hasBcc()
+    {
+        return !empty($this->bcc);
+    }
+
     /**
      * @return mixed
      */
@@ -116,6 +135,24 @@ class EmailMessage extends Message implements iMessage
     {
         return $this->cc;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasCc()
+    {
+        return !empty($this->cc);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasFrom()
+    {
+        return !empty($this->from);
+    }
+
 
     /**
      * @return mixed
@@ -134,12 +171,31 @@ class EmailMessage extends Message implements iMessage
     }
 
     /**
+     * @return bool
+     */
+    public function hasAttachment()
+    {
+        return !empty($this->attachments);
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getSubject()
     {
         return $this->subject;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasSubject()
+    {
+        return !empty($this->subject);
+    }
+
 
 
     /**

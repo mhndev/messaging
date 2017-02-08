@@ -28,16 +28,29 @@ class SmtpPhpMailer implements iTransporter
      * @param $username
      * @param $password
      */
-    public function __construct($server = 'localhost', $port = 25, $security = null, $username, $password)
+    public function __construct(
+        $server = 'localhost',
+        $port = 25,
+        $security = null,
+        $username,
+        $password
+    )
     {
         $this->transporter = new PHPMailer;
+
 
         $this->transporter->SMTPDebug = 3;
         $this->transporter->isSMTP();
         $this->transporter->Host = $server;
 
+        $this->transporter->CharSet = 'utf-8';
+
+
         $this->transporter->Port = $port;
-        $this->transporter->SMTPSecure = 'tls';
+        if($security){
+            $this->transporter->SMTPSecure = $security;
+        }
+
         $this->transporter->SMTPAuth = true;
         $this->transporter->Username = $username;
         $this->transporter->Password = $password;
@@ -81,8 +94,13 @@ class SmtpPhpMailer implements iTransporter
             $this->transporter->isHTML();
         }
 
-        $this->transporter->addCC($message->getCc());
-        $this->transporter->addBCC($message->getBcc());
+        if($message->hasCc()){
+            $this->transporter->addCC($message->getCc());
+        }
+
+        if($message->hasBcc()){
+            $this->transporter->addBCC($message->getBcc());
+        }
 
 
         if(! $this->transporter->send() ) {
