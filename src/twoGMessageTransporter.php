@@ -33,7 +33,6 @@ class twoGMessageTransporter implements iTransporter
      */
     function transport(iMessage $message)
     {
-
         if(! $message instanceof SmsMessage){
             throw new \Exception(get_class().' just can transport messages which their type is '.SmsMessage::class);
         }

@@ -303,6 +303,7 @@ class EmailMessage extends Message implements iMessage
         return $this->charset;
     }
 
+
     /**
      * @param string $charset
      * @return $this

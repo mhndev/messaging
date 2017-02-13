@@ -95,6 +95,7 @@ class SmtpPhpMailer implements iTransporter
             $this->transporter->isHTML();
         }
 
+
         if($message->hasCc()){
             $this->transporter->addCC($message->getCc());
         }
