@@ -1,8 +1,9 @@
 <?php
 
-namespace mhndev\messaging;
+namespace mhndev\messaging\transporters;
 
-use mhndev\messaging\exceptions\EmailSendFailed;
+use mhndev\messaging\EmailMessage;
+use mhndev\messaging\exceptions\EmailSendFailedException;
 use mhndev\messaging\interfaces\iMessage;
 use mhndev\messaging\interfaces\iTransporter;
 use PHPMailer;
@@ -106,7 +107,7 @@ class SmtpPhpMailer implements iTransporter
 
 
         if(! $this->transporter->send() ) {
-            throw new EmailSendFailed($this->transporter->ErrorInfo);
+            throw new EmailSendFailedException($this->transporter->ErrorInfo);
         }
 
 

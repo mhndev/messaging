@@ -1,6 +1,7 @@
 <?php
-namespace mhndev\messaging;
+namespace mhndev\messaging\transporters;
 
+use mhndev\messaging\EmailMessage;
 use mhndev\messaging\interfaces\iMessage;
 use mhndev\messaging\interfaces\iTransporter;
 

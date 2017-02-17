@@ -1,10 +1,11 @@
 <?php
 
-namespace mhndev\messaging;
+namespace mhndev\messaging\transporters;
 
 use mhndev\messaging\interfaces\iMessage;
 use mhndev\messaging\interfaces\iSmsProvider;
 use mhndev\messaging\interfaces\iTransporter;
+use mhndev\messaging\SmsMessage;
 
 class twoGMessageTransporter implements iTransporter
 {

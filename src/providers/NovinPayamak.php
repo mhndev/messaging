@@ -1,7 +1,8 @@
 <?php
 
-namespace mhndev\messaging;
+namespace mhndev\messaging\providers;
 
+use mhndev\messaging\ErrorCode;
 use mhndev\messaging\interfaces\iSmsProvider;
 use SoapClient;
 
@@ -58,6 +59,20 @@ class NovinPayamak implements iSmsProvider
             die($e->getMessage());
         }
         return true;
+    }
+
+
+    public static function errorCodeMap()
+    {
+        return [
+            ErrorCode::class => 1000,
+            ErrorCode::Access_Denied => 55,
+            ErrorCode::Invalid_Credentials => 22,
+            ErrorCode::Invalid_Data_Provided => 11,
+            ErrorCode::Request_Overflow => 99,
+            ErrorCode::Not_Enough_credit => '',
+
+        ];
     }
 
 
