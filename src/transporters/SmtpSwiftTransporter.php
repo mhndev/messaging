@@ -117,7 +117,7 @@ class SmtpSwiftTransporter implements iTransporter
         $logger = new \Swift_Plugins_Loggers_ArrayLogger();
         $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($logger));
 
-        if (!$mailer->send($message, $failedRecipients)) {
+        if (!$mailer->send($swiftMessage, $failedRecipients)) {
             throw new EmailSendFailedException(implode(',', $failedRecipients));
         }
 
