@@ -110,13 +110,26 @@ class SmtpSwiftTransporter implements iTransporter
             $swiftMessage->setCharset('utf-8');
         }
 
+        $failedRecipients = [];
 
         $mailer = \Swift_Mailer::newInstance($this->transporter);
-        $mailer->send($swiftMessage, $failedRecipients);
+
+        $logger = new \Swift_Plugins_Loggers_ArrayLogger();
+        $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($logger));
+
+        if (!$mailer->send($message, $failedRecipients)) {
+            throw new EmailSendFailedException(implode(',', $failedRecipients));
+        }
 
 
         if(!empty($failedRecipients)){
-            throw new EmailSendFailedException(implode(',', $failedRecipients));
+            throw new EmailSendFailedException(
+                sprintf(
+                    'Failed Recipients are : %s and Error Message is : %s ',
+                    implode(',', $failedRecipients),
+                    $logger->dump()
+                )
+            );
         }
 
         return $failedRecipients;
